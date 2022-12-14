@@ -3,8 +3,8 @@ import peasy.*;
 Table data;
 String photos_folder;
 PImage[] photos = new PImage[12865];
-PShape[] shapes = new PShape[12865];
-int number_of_photos = 4000;
+//PShape[] shapes = new PShape[12865];
+int number_of_photos = 12864;
 
 
 PeasyCam cam;
@@ -30,9 +30,9 @@ void setup() {
        String image_path = photos_folder+row.getString("filename").substring(7);
        
        photos[count-1] = loadImage (image_path);
-       shapes[count-1] = createShape(RECT, 0,0,photos[count-1].width, photos[count-1].height);
-       shapes[count-1].setTexture(photos[count-1]);
-       //println (image_path);
+       //shapes[count-1] = createShape(RECT, 0,0,photos[count-1].width, photos[count-1].height);
+       //shapes[count-1].setTexture(photos[count-1]);
+       ////println (image_path);
      }
  
  }
@@ -66,7 +66,13 @@ void drawShape(int i) {
   //rotateZ(rot.z);
   //scale(shapeScale);
 
-  shape(shapes[i]);
+  beginShape();
+  texture(photos[i]);
+  vertex(0, 0, 0, 0,0);
+  vertex(photos[i].width, 0, 0, photos[i].width,0);
+  vertex(photos[i].width, photos[i].height, 0, photos[i].width, photos[i].height);
+  vertex( 0, photos[i].height,0, 0,photos[i].height);
+  endShape();
 
   //box(5);
 
