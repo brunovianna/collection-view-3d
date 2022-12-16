@@ -6,6 +6,7 @@ PImage[] photos = new PImage[12865];
 //PShape[] shapes = new PShape[12865];
 int number_of_photos = 12864;
 
+float position_scale = 1.7;
 
 PeasyCam cam;
 
@@ -51,16 +52,16 @@ void draw() {
   for (int i=1;i<number_of_photos;i++) 
     drawShape(i);
   popMatrix();
-  println (cam.getDistance());  // current distance
-  println (str(cam.getLookAt()[0])+" "+str(cam.getLookAt()[1])+" "+str(cam.getLookAt()[2]));  
-  println (str(cam.getPosition()[0])+" "+str(cam.getPosition()[1])+" "+str(cam.getPosition()[2]));  
-  println(cam.getWheelScale());
+  println ("Distance: "+(cam.getDistance()));  // current distance
+  println ("Look At: "+str(cam.getLookAt()[0])+" "+str(cam.getLookAt()[1])+" "+str(cam.getLookAt()[2]));  
+  println ("Posiiton: "+str(cam.getPosition()[0])+" "+str(cam.getPosition()[1])+" "+str(cam.getPosition()[2]));  
+  //println(cam.getWheelScale());
 }
 void drawShape(int i) {
   pushStyle();
   pushMatrix();
   TableRow row = data.getRow(i);
-  translate(row.getFloat("x")*0.5, row.getFloat("y")*0.5, row.getFloat("z")*0.5);
+  translate(row.getFloat("x")*position_scale, row.getFloat("y")*position_scale, row.getFloat("z")*position_scale);
   //rotateX(rot.x);
   //rotateY(rot.y);
   //rotateZ(rot.z);
@@ -74,7 +75,9 @@ void drawShape(int i) {
   vertex( 0, photos[i].height,0, 0,photos[i].height);
   endShape();
 
+  //cam.beginHUD();
   //box(5);
+  //cam.endHUD();
 
   popMatrix();
   popStyle();
@@ -90,8 +93,9 @@ void setupcam () {
   //cam = new PeasyCam(this, 400);
   cam = new PeasyCam (this, 400);
   cam.setWheelScale(5.0); 
+  cam.setMinimumDistance(-10000.0);
   TableRow row = data.getRow(1);
-  cam.lookAt(row.getFloat("x")*0.5, row.getFloat("y")*0.5,0.0);
+  cam.lookAt(row.getFloat("x")*position_scale, row.getFloat("y")*position_scale,0.0);
 }
 
 void updateCam () {
